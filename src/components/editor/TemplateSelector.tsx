@@ -1,0 +1,118 @@
+import React from 'react';
+import { TemplateId } from '../../types/portfolio';
+import { TEMPLATES_CATALOG, INDUSTRY_PRESETS } from '../../data/presets';
+import { Sparkles, Check, Layers, UserCheck } from 'lucide-react';
+
+interface Props {
+  selectedTemplate: TemplateId;
+  onSelectTemplate: (templateId: TemplateId) => void;
+  onApplyPreset?: (presetKey: string) => void;
+}
+
+export const TemplateSelector: React.FC<Props> = ({
+  selectedTemplate,
+  onSelectTemplate,
+  onApplyPreset,
+}) => {
+  return (
+    <div className="space-y-8">
+      <div>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-white tracking-tight">10 Master Templates</h2>
+            <p className="text-xs text-neutral-400 mt-1">
+              Select a handcrafted portfolio layout tailored for your craft and industry.
+            </p>
+          </div>
+          <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">
+            10 Ready
+          </span>
+        </div>
+      </div>
+
+      {/* Preset Quick Loader */}
+      {onApplyPreset && (
+        <div className="p-4 rounded-xl bg-neutral-900/80 border border-neutral-800 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-neutral-300 flex items-center gap-1.5">
+              <UserCheck className="w-3.5 h-3.5 text-indigo-400" />
+              Quick Industry Demo Profiles
+            </span>
+            <span className="text-[11px] text-neutral-500">1-Click Load</span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {Object.entries(INDUSTRY_PRESETS).map(([key, item]) => (
+              <button
+                key={key}
+                onClick={() => onApplyPreset(key)}
+                className="text-[11px] px-2.5 py-1 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 border border-neutral-700 hover:border-indigo-500/40 transition-colors text-left"
+              >
+                {item.label.split('&')[0]}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Template Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {TEMPLATES_CATALOG.map((tpl) => {
+          const isSelected = selectedTemplate === tpl.id;
+          return (
+            <div
+              key={tpl.id}
+              onClick={() => onSelectTemplate(tpl.id)}
+              className={`p-4 rounded-2xl border cursor-pointer transition-all duration-200 flex flex-col justify-between relative overflow-hidden group ${
+                isSelected
+                  ? 'bg-neutral-900 border-indigo-500 ring-2 ring-indigo-500/30 shadow-lg shadow-indigo-500/10'
+                  : 'bg-neutral-900/60 border-neutral-800 hover:border-neutral-700 hover:bg-neutral-900'
+              }`}
+            >
+              {/* Header Badge */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-neutral-800 text-neutral-400 border border-neutral-700">
+                  {tpl.category}
+                </span>
+                {tpl.badge && (
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800">
+                    {tpl.badge}
+                  </span>
+                )}
+              </div>
+
+              {/* Gradient Banner Preview */}
+              <div
+                className={`h-24 rounded-xl bg-gradient-to-br ${tpl.thumbnailGradient} p-3 flex flex-col justify-between mb-3 shadow-inner relative overflow-hidden border border-white/5`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-current opacity-80"></div>
+                  <span className="text-[10px] font-mono tracking-wider opacity-80">{tpl.id.toUpperCase()}</span>
+                </div>
+                <p className="text-xs font-bold leading-tight line-clamp-2">{tpl.tagline}</p>
+              </div>
+
+              {/* Info */}
+              <div className="space-y-1.5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-bold text-sm text-white flex items-center justify-between">
+                    {tpl.name}
+                    {isSelected && (
+                      <span className="w-5 h-5 rounded-full bg-indigo-500 text-white flex items-center justify-center shrink-0">
+                        <Check className="w-3.5 h-3.5" />
+                      </span>
+                    )}
+                  </h3>
+                  <p className="text-xs text-neutral-400 mt-1 leading-relaxed">{tpl.description}</p>
+                </div>
+
+                <div className="pt-3 mt-3 border-t border-neutral-800/80 text-[11px] text-neutral-400">
+                  <span className="text-indigo-400 font-semibold">Best for:</span> {tpl.recommendedFor}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};

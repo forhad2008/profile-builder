@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .font-heading-editorial {
+    font-family: 'Instrument Serif', 'Playfair Display', Georgia, serif;
+  }
+  .font-display-modern {
+    font-family: 'Syne', 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  }
+  .font-tech-code {
+    font-family: 'Fira Code', ui-monospace, monospace;
+  }
+  .font-sans-clean {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 140, 140, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 140, 140, 0.45);
+}
+
+/* Print styling for portfolio resume/cv mode */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
