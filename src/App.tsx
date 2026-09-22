@@ -69,6 +69,15 @@ export default function App() {
   const [mobileMode, setMobileMode] = useState<'edit' | 'preview'>('edit');
   const [zoom, setZoom] = useState(100);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [autoLivePreview, setAutoLivePreview] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('portfoliocraft_autopreview');
+      return saved !== null ? JSON.parse(saved) : true;
+    } catch {
+      return true;
+    }
+  });
+  const [lastSelectedTemplate, setLastSelectedTemplate] = useState<string | null>(null);
 
   // AI Assistant Modal State
   const [aiModalOpen, setAiModalOpen] = useState(false);
@@ -133,18 +142,23 @@ export default function App() {
     }));
   };
 
-  const handleSelectTemplate = (templateId: TemplateId) => {
+  const handleSelectTemplate = (templateId: TemplateId, autoOpenPreview = true) => {
     setData((prev) => ({
       ...prev,
       themeConfig: { ...prev.themeConfig, templateId },
     }));
-    showToast(`Switched to ${templateId.toUpperCase()} template`);
+    setLastSelectedTemplate(templateId);
+    showToast(`Live Preview: ${templateId.toUpperCase()} template`);
+    if (autoLivePreview && autoOpenPreview && window.innerWidth < 1024) {
+      setMobileMode('preview');
+    }
   };
 
   const handleApplyPreset = (presetKey: string) => {
     const preset = INDUSTRY_PRESETS[presetKey];
     if (!preset) return;
 
+    const chosenTemplate = (preset.templateId as TemplateId) || data.themeConfig.templateId;
     setData((prev) => ({
       ...prev,
       ...preset.data,
@@ -154,10 +168,24 @@ export default function App() {
       },
       themeConfig: {
         ...prev.themeConfig,
-        templateId: (preset.templateId as TemplateId) || prev.themeConfig.templateId,
+        templateId: chosenTemplate,
       },
     }));
-    showToast(`Loaded "${preset.label}" profile demo`);
+    setLastSelectedTemplate(chosenTemplate);
+    showToast(`Loaded "${preset.label}" demo with live preview!`);
+    if (autoLivePreview && window.innerWidth < 1024) {
+      setMobileMode('preview');
+    }
+  };
+
+  const handleToggleAutoPreview = (enabled: boolean) => {
+    setAutoLivePreview(enabled);
+    try {
+      localStorage.setItem('portfoliocraft_autopreview', JSON.stringify(enabled));
+    } catch {
+      // ignore
+    }
+    showToast(enabled ? 'Auto Live Preview is ON' : 'Auto Live Preview is OFF');
   };
 
   const handleResetData = () => {
@@ -263,6 +291,8 @@ export default function App() {
             selectedTemplate={data.themeConfig.templateId}
             onSelectTemplate={handleSelectTemplate}
             onApplyPreset={handleApplyPreset}
+            autoPreview={autoLivePreview}
+            onToggleAutoPreview={handleToggleAutoPreview}
           />
         );
       case 'personal':
@@ -566,6 +596,19 @@ export default function App() {
               {/* Mobile Canvas View */}
               <div className="flex-1 overflow-hidden relative">
                 <DevicePreviewFrame device={device} data={data} zoom={zoom} />
+
+                {/* Floating Back to Editor / Templates Chip */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileMode('edit');
+                    setActiveTab('templates');
+                  }}
+                  className="fixed bottom-4 left-4 z-40 px-4 py-2.5 rounded-2xl bg-neutral-900/90 backdrop-blur-md border border-indigo-500/40 text-white shadow-2xl flex items-center gap-2 text-xs font-bold hover:bg-neutral-800 transition-all active:scale-95"
+                >
+                  <LayoutTemplate className="w-4 h-4 text-indigo-400" />
+                  <span>← Change Template / Edit</span>
+                </button>
               </div>
             </div>
           )}

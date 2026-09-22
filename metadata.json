@@ -2,5 +2,7 @@
   "name": "PortfolioCraft Studio - Collected by Abdullah Forhad",
   "description": "Modern multi-template portfolio builder with 10 responsive themes, live device preview, instant customizer, and export tools. Collected by Abdullah Forhad.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
