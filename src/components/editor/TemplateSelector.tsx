@@ -126,21 +126,29 @@ export const TemplateSelector: React.FC<Props> = ({
                 )}
               </div>
 
-              {/* Gradient Banner Preview */}
-              <div
-                className={`h-24 rounded-xl bg-gradient-to-br ${tpl.thumbnailGradient} p-3 flex flex-col justify-between mb-3 shadow-inner relative overflow-hidden border border-white/5`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-2 h-2 rounded-full bg-current opacity-80"></div>
-                    <span className="text-[10px] font-mono tracking-wider opacity-80">{tpl.id.toUpperCase()}</span>
+              {/* Real Preview Image Card with Modern Overlay */}
+              <div className="h-32 rounded-xl relative overflow-hidden mb-3.5 border border-white/10 shadow-inner group/thumb">
+                <img
+                  src={tpl.previewImage}
+                  alt={`${tpl.name} live layout preview`}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                
+                {/* Dark Gradient Overlay for Readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-black/30 p-2.5 flex flex-col justify-between">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-white border border-white/10">
+                      {tpl.id.toUpperCase()}
+                    </span>
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-[10px] bg-indigo-600/90 backdrop-blur-xs px-2 py-0.5 rounded-md text-white font-bold shadow-md">
+                      <Eye className="w-3 h-3" />
+                      <span>Click to Preview</span>
+                    </div>
                   </div>
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-[10px] bg-black/50 backdrop-blur-xs px-2 py-0.5 rounded-md text-white font-medium">
-                    <Eye className="w-3 h-3" />
-                    <span>Auto Preview</span>
-                  </div>
+                  <p className="text-xs font-bold text-white leading-tight drop-shadow-md line-clamp-1">{tpl.tagline}</p>
                 </div>
-                <p className="text-xs font-bold leading-tight line-clamp-2">{tpl.tagline}</p>
               </div>
 
               {/* Info */}

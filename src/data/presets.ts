@@ -9,6 +9,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     category: 'Minimal & Editorial',
     recommendedFor: 'Full Stack Devs, Architects, Writers, Minimalists',
     thumbnailGradient: 'from-zinc-900 to-zinc-800 text-zinc-100',
+    previewImage: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80',
     badge: 'Popular',
   },
   {
@@ -19,6 +20,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     category: 'Developer & Tech',
     recommendedFor: 'Software Engineers, Backend Devs, AI Specialists',
     thumbnailGradient: 'from-slate-950 via-indigo-950 to-neutral-900 text-indigo-300',
+    previewImage: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80',
     badge: 'Pro Tech',
   },
   {
@@ -30,6 +32,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     recommendedFor: 'Product Designers, UI/UX, Creative Technologists',
     badge: 'Trending',
     thumbnailGradient: 'from-violet-900 via-purple-900 to-slate-900 text-violet-200',
+    previewImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'executive',
@@ -40,6 +43,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     recommendedFor: 'Founders, Product Leaders, Directors, Consultants',
     badge: 'Executive',
     thumbnailGradient: 'from-stone-900 via-amber-950 to-stone-900 text-amber-200',
+    previewImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'brutalist',
@@ -50,6 +54,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     recommendedFor: 'Indie Hackers, Web3 Devs, Game Developers, Artists',
     badge: 'Bold & Fun',
     thumbnailGradient: 'from-yellow-400 via-orange-400 to-amber-500 text-black',
+    previewImage: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'aurora',
@@ -60,6 +65,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     recommendedFor: 'Motion Designers, Mobile App Devs, Digital Creators',
     badge: 'Vibrant',
     thumbnailGradient: 'from-fuchsia-900 via-cyan-900 to-blue-900 text-cyan-200',
+    previewImage: 'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'terminal',
@@ -70,6 +76,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     recommendedFor: 'Security Researchers, Systems Devs, DevOps, CLI Enthusiasts',
     badge: 'Geek Chic',
     thumbnailGradient: 'from-black via-emerald-950 to-neutral-950 text-emerald-400',
+    previewImage: 'https://images.unsplash.com/photo-1629654297299-c8506221ca97?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'artisan',
@@ -80,6 +87,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     recommendedFor: 'Brand Strategists, Architects, Industrial Designers',
     badge: 'Organic',
     thumbnailGradient: 'from-stone-800 via-amber-950 to-orange-950 text-orange-200',
+    previewImage: 'https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'splitscreen',
@@ -90,6 +98,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     recommendedFor: 'Staff Engineers, Researchers, Multidisciplinary Pros',
     badge: 'Fluid',
     thumbnailGradient: 'from-blue-950 via-slate-900 to-slate-950 text-blue-300',
+    previewImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
   },
   {
     id: 'showcase',
@@ -100,6 +109,7 @@ export const TEMPLATES_CATALOG: TemplateMeta[] = [
     recommendedFor: 'Visual Designers, 3D Artists, Photographers, Agencies',
     badge: 'Showcase',
     thumbnailGradient: 'from-neutral-950 via-rose-950 to-neutral-900 text-rose-300',
+    previewImage: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=800&q=80',
   },
 ];
 

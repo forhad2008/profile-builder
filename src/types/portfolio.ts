@@ -176,5 +176,6 @@ export interface TemplateMeta {
   category: string;
   recommendedFor: string;
   thumbnailGradient: string;
+  previewImage: string;
   badge: string;
 }
