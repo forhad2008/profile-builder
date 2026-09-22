@@ -293,6 +293,7 @@ export default function App() {
             onApplyPreset={handleApplyPreset}
             autoPreview={autoLivePreview}
             onToggleAutoPreview={handleToggleAutoPreview}
+            data={data}
           />
         );
       case 'personal':

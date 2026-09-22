@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { TemplateId } from '../../types/portfolio';
+import React from 'react';
+import { PortfolioData, TemplateId } from '../../types/portfolio';
 import { TEMPLATES_CATALOG, INDUSTRY_PRESETS } from '../../data/presets';
-import { Sparkles, Check, Layers, UserCheck, Eye, Zap } from 'lucide-react';
+import { TemplateRenderer } from '../templates/TemplateRenderer';
+import { Check, UserCheck, Eye, Zap } from 'lucide-react';
 
 interface Props {
   selectedTemplate: TemplateId;
@@ -9,6 +10,7 @@ interface Props {
   onApplyPreset?: (presetKey: string) => void;
   autoPreview?: boolean;
   onToggleAutoPreview?: (enabled: boolean) => void;
+  data?: PortfolioData;
 }
 
 export const TemplateSelector: React.FC<Props> = ({
@@ -17,6 +19,7 @@ export const TemplateSelector: React.FC<Props> = ({
   onApplyPreset,
   autoPreview = true,
   onToggleAutoPreview,
+  data,
 }) => {
   return (
     <div className="space-y-6">
@@ -27,11 +30,11 @@ export const TemplateSelector: React.FC<Props> = ({
               <span>10 Master Templates</span>
             </h2>
             <p className="text-xs text-neutral-400 mt-1">
-              Select a handcrafted layout. Auto Live Preview updates instantly.
+              Live interactive screenshots of each portfolio layout. Click to auto-preview.
             </p>
           </div>
           <span className="text-xs px-2.5 py-1 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-mono">
-            10 Ready
+            10 Live
           </span>
         </div>
 
@@ -97,6 +100,18 @@ export const TemplateSelector: React.FC<Props> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {TEMPLATES_CATALOG.map((tpl) => {
           const isSelected = selectedTemplate === tpl.id;
+          
+          // Generate customized live snapshot data for this specific template card
+          const cardData: PortfolioData | undefined = data
+            ? {
+                ...data,
+                themeConfig: {
+                  ...data.themeConfig,
+                  templateId: tpl.id,
+                },
+              }
+            : undefined;
+
           return (
             <div
               key={tpl.id}
@@ -115,7 +130,7 @@ export const TemplateSelector: React.FC<Props> = ({
                 {isSelected ? (
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    Live Preview
+                    Live Preview Active
                   </span>
                 ) : (
                   tpl.badge && (
@@ -126,25 +141,39 @@ export const TemplateSelector: React.FC<Props> = ({
                 )}
               </div>
 
-              {/* Real Preview Image Card with Modern Overlay */}
-              <div className="h-32 rounded-xl relative overflow-hidden mb-3.5 border border-white/10 shadow-inner group/thumb">
-                <img
-                  src={tpl.previewImage}
-                  alt={`${tpl.name} live layout preview`}
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                
-                {/* Dark Gradient Overlay for Readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/40 to-black/30 p-2.5 flex flex-col justify-between">
+              {/* Real Live Scaled Screenshot Preview Frame */}
+              <div className="h-36 rounded-xl relative overflow-hidden mb-3.5 border border-neutral-750/80 bg-neutral-950 shadow-inner group/thumb">
+                {cardData ? (
+                  <div className="absolute inset-0 overflow-hidden pointer-events-none select-none bg-neutral-950">
+                    <div
+                      className="w-[960px] h-[520px] origin-top-left absolute top-0 left-0"
+                      style={{
+                        transform: 'scale(0.33)',
+                        transformOrigin: '0 0',
+                      }}
+                    >
+                      <TemplateRenderer data={cardData} />
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={tpl.previewImage}
+                    alt={`${tpl.name} live preview`}
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                )}
+
+                {/* Dark Gradient Overlay for Readability and Hover Action */}
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/20 to-black/20 p-2.5 flex flex-col justify-between pointer-events-none">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-md text-white border border-white/10">
+                    <span className="text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-md text-white border border-white/10 shadow-xs">
                       {tpl.id.toUpperCase()}
                     </span>
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-[10px] bg-indigo-600/90 backdrop-blur-xs px-2 py-0.5 rounded-md text-white font-bold shadow-md">
                       <Eye className="w-3 h-3" />
-                      <span>Click to Preview</span>
+                      <span>Live Preview</span>
                     </div>
                   </div>
                   <p className="text-xs font-bold text-white leading-tight drop-shadow-md line-clamp-1">{tpl.tagline}</p>
@@ -159,21 +188,21 @@ export const TemplateSelector: React.FC<Props> = ({
                       {tpl.name}
                     </h3>
                     {isSelected ? (
-                      <span className="w-5 h-5 rounded-full bg-indigo-500 text-white flex items-center justify-center shrink-0">
+                      <span className="w-5 h-5 rounded-full bg-indigo-500 text-white flex items-center justify-center shrink-0 shadow-sm">
                         <Check className="w-3.5 h-3.5" />
                       </span>
                     ) : (
                       <span className="text-[11px] text-indigo-400 opacity-0 group-hover:opacity-100 font-medium transition-opacity flex items-center gap-0.5">
                         <Eye className="w-3 h-3" />
-                        Preview
+                        Select
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-neutral-400 mt-1 leading-relaxed">{tpl.description}</p>
+                  <p className="text-xs text-neutral-400 mt-1 leading-relaxed line-clamp-2">{tpl.description}</p>
                 </div>
 
                 <div className="pt-3 mt-3 border-t border-neutral-800/80 flex items-center justify-between text-[11px] text-neutral-400">
-                  <span>
+                  <span className="truncate">
                     <span className="text-indigo-400 font-semibold">Best for:</span> {tpl.recommendedFor}
                   </span>
                 </div>
